@@ -1,11 +1,13 @@
 package com.example.librarypractica
 
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.fragment_login.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -19,6 +21,17 @@ private const val ARG_PARAM2 = "param2"
  */
 class LoginFragment : Fragment() {
 
+    interface OnButtonLoginPressedListener {
+
+    }
+
+    interface OnTextRegistredPressedListener {
+        fun onRegistredPressed(username:String)
+
+    }
+
+    private lateinit var registerListener: OnTextRegistredPressedListener
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,5 +40,17 @@ class LoginFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        backToRegister.setOnClickListener {
+            registerListener.onRegistredPressed(Email.text.toString())
+        }
+
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        registerListener = activity as OnTextRegistredPressedListener
+    }
 
 }
