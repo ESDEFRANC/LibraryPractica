@@ -22,7 +22,7 @@ private const val ARG_PARAM2 = "param2"
 class LoginFragment : Fragment() {
 
     interface OnButtonLoginPressedListener {
-
+        fun onLoginPressed()
     }
 
     interface OnTextRegistredPressedListener {
@@ -30,6 +30,7 @@ class LoginFragment : Fragment() {
 
     }
 
+    private lateinit var loginRegister: OnButtonLoginPressedListener
     private lateinit var registerListener: OnTextRegistredPressedListener
 
     override fun onCreateView(
@@ -42,6 +43,10 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Login.setOnClickListener {
+            loginRegister.onLoginPressed()
+        }
+
         backToRegister.setOnClickListener {
             registerListener.onRegistredPressed(Email.text.toString())
         }
@@ -50,6 +55,7 @@ class LoginFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        loginRegister = activity as OnButtonLoginPressedListener
         registerListener = activity as OnTextRegistredPressedListener
     }
 
