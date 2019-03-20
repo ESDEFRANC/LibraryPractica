@@ -2,6 +2,12 @@ package com.example.librarypractica
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.R.id.edit
+import android.content.SharedPreferences
+import android.content.SharedPreferences.Editor
+import android.util.Log
+import kotlinx.android.synthetic.main.fragment_register.*
+
 
 class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener{
 
@@ -19,7 +25,13 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
             replace(R.id.main_container, fragmentRegister).
             addToBackStack(null).
             commit()
+
     }
+     fun onRegistrationConfirmPressed() {
+
+
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -34,7 +34,6 @@
             android:layout_width="314dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/rounded_edittext_register_main"
             android:ems="10"
@@ -43,9 +42,9 @@
             android:paddingLeft="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonImg"
             android:paddingStart="16dp"
-            tools:ignore="RtlSymmetry"/>
+            tools:ignore="RtlSymmetry" android:layout_marginTop="172dp" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"/>
 
     <EditText
             android:id="@+id/passwordMain"
@@ -94,16 +93,4 @@
             app:layout_constraintTop_toBottomOf="@+id/registerMain"
             app:layout_constraintVertical_bias="0.186" />
 
-    <Button
-            android:id="@+id/buttonImg"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/rounded_select_photo"
-            android:text="@string/buttonImg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
