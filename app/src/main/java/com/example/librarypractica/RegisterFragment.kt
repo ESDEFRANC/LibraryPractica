@@ -58,9 +58,9 @@ class RegisterFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         registerMain.setOnClickListener(){
             if(checkPassword()){
-
+                saveLocalData(nameMain.text.toString(),passwordMain.text.toString())
             }
-            saveLocalData(nameMain.text.toString(),passwordMain.text.toString())
+
         }
 
     }
@@ -88,8 +88,8 @@ class RegisterFragment : Fragment() {
         preferences.edit().putString("Email",json).apply()
         Log.d("Emailverification",preferences.all.toString())
     }
-    private fun checkPassword(password:String,passwordRepeat:String):Boolean{
-        return password == passwordRepeat
+    private fun checkPassword():Boolean{
+        return passwordMain.text.toString() == passwordMain2.text.toString()
     }
     private fun checkUserName(name: String): Boolean {
         val regex = "^[a-zA-Z0-9]+$"
