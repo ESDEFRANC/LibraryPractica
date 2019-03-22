@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import kotlinx.android.synthetic.main.template_recycler.view.*
 
-class AdapterCustomBooks(mContext: Context?, movies:List<Book>) : RecyclerView.Adapter<AdapterCustomBooks.ViewHolder>() {
+class AdapterCustomBooks(mContext: Context?, movies:List<Book>, val listener: (Book) -> Unit) : RecyclerView.Adapter<AdapterCustomBooks.ViewHolder>() {
+
 
     private var mContext: Context? = null
     private var books: List<Book> = ArrayList()
@@ -28,21 +28,18 @@ class AdapterCustomBooks(mContext: Context?, movies:List<Book>) : RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(books[position])
+        holder.bind(books[position],listener)
 
     }
 
-    inner class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
-        var bookCover: ImageView? = null
-        var bookTitle: TextView? = null
-        init {
-            bookCover = root.findViewById(R.id.bookCover)
-            bookTitle = root.findViewById(R.id.bookTitle)
-        }
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(book:Book) {
-            bookCover!!.setImageResource(book.cover)
-            bookTitle!!.text = book.title
+        fun bind(item:Book, listener: (Book) -> Unit) = with(itemView) {
+            bookCover!!.setImageResource(item.cover)
+            bookTitle!!.text = item.title
+            setOnClickListener{
+                listener(item)
+            }
         }
     }
 }
