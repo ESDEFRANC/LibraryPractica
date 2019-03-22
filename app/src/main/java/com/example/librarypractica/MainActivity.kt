@@ -10,7 +10,7 @@ import android.util.Log
 import kotlinx.android.synthetic.main.fragment_register.*
 
 
-class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, FavoriteBooksList.OnProductClickedListener{
+class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, FavoriteBooksList.OnBookClickedListener{
 
 
     override fun onLoginPressed() {
@@ -35,8 +35,8 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
     }
 
 
-    override fun onProductClicked(product: Book) {
-        val fragmentBook = BookFragment()
+    override fun onBookClicked(book: Book) {
+        val fragmentBook = BookFragment.newInstance(book)
         supportFragmentManager.beginTransaction().replace(R.id.main_container, fragmentBook).addToBackStack(null).commit()
     }
 

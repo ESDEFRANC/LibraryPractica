@@ -35,7 +35,7 @@ class AdapterCustomBooks(mContext: Context?, movies:List<Book>, val listener: (B
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item:Book, listener: (Book) -> Unit) = with(itemView) {
-            bookCover!!.setImageResource(item.cover)
+            bookCover!!.setImageResource(item.img)
             bookTitle!!.text = item.title
             setOnClickListener{
                 listener(item)

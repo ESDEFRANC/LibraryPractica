@@ -27,9 +27,9 @@
             android:src="@drawable/suma"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.896"
+            app:layout_constraintHorizontal_bias="0.976"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/books_list"
             app:layout_constraintVertical_bias="1.0"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"/>
 </android.support.constraint.ConstraintLayout>
