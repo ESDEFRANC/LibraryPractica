@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.R.id.edit
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
+import android.support.v4.app.Fragment
 import android.util.Log
 import kotlinx.android.synthetic.main.fragment_register.*
 
 
-class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener{
+class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, FavoriteBooksList.OnProductClickedListener{
+
 
     override fun onLoginPressed() {
         val fragmentListBooks = FavoriteBooksList()
@@ -31,6 +33,12 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
 
 
     }
+
+    override fun onProductClicked(product: Book) {
+        val fragmentBook = BookFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.main_container, fragmentBook).addToBackStack(null).commit()
+    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

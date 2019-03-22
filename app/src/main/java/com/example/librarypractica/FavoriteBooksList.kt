@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import android.widget.AdapterView
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -48,16 +49,15 @@ class FavoriteBooksList : Fragment() {
         //setListener()
     }
 
-    /*private fun setListener() {
-        list?.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            listenerList.onProductClicked(products[position])
-        }*/
+    private fun setListener() {
+        list?.onIte
+        }
     //}
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         addProductstoList()
-        //listenerList = context as OnProductClickedListener
+        listenerList = context as OnProductClickedListener
 
     }
 
