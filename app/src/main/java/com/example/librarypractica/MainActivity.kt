@@ -34,6 +34,7 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
 
     }
 
+
     override fun onProductClicked(product: Book) {
         val fragmentBook = BookFragment()
         supportFragmentManager.beginTransaction().replace(R.id.main_container, fragmentBook).addToBackStack(null).commit()

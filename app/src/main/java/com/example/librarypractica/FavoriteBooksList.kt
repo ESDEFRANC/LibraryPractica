@@ -32,7 +32,7 @@ class FavoriteBooksList : Fragment() {
                               savedInstanceState: Bundle?
     ): View? {
 
-        var  view = inflater.inflate(R.layout.fragment_favorite_books_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_favorite_books_list, container, false)
         setHasOptionsMenu(true)
         return view
     }
@@ -49,11 +49,6 @@ class FavoriteBooksList : Fragment() {
         //setListener()
     }
 
-    private fun setListener() {
-        list?.onIte
-        }
-    //}
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         addProductstoList()
@@ -69,11 +64,12 @@ class FavoriteBooksList : Fragment() {
     }
 
     fun configureList() {
-        val adapter = AdapterCustomBooks(this.context, books)
         list = activity!!.findViewById(R.id.books_list)
         list?.setHasFixedSize(true)
         list?.layoutManager = GridLayoutManager(this.context,2)
-        list?.adapter = adapter
+        list?.adapter = AdapterCustomBooks(context, books) {
+            listenerList.onProductClicked(it)
+        }
         //adapter.notifyDataSetChanged()
     }
 }
