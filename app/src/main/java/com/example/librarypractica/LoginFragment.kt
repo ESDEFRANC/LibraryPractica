@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
@@ -21,6 +24,10 @@ private const val ARG_PARAM2 = "param2"
  */
 class LoginFragment : Fragment() {
 
+    interface OnGoogleSignInPressedListener {
+        fun onGooglePressed(client: GoogleSignInClient)
+    }
+
     interface OnButtonLoginPressedListener {
         fun onLoginPressed()
     }
@@ -30,8 +37,10 @@ class LoginFragment : Fragment() {
 
     }
 
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var loginRegister: OnButtonLoginPressedListener
     private lateinit var registerListener: OnTextRegistredPressedListener
+    private lateinit var googleListener: OnGoogleSignInPressedListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +52,16 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
+            requestEmail().
+            build()
+        mGoogleSignInClient= GoogleSignIn.getClient(context!!, gso)
         Login.setOnClickListener {
             loginRegister.onLoginPressed()
+        }
+
+        sign_in_google_button.setOnClickListener {
+            googleListener.onGooglePressed(mGoogleSignInClient)
         }
 
         backToRegister.setOnClickListener {
@@ -53,10 +70,18 @@ class LoginFragment : Fragment() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (GoogleSignIn.getLastSignedInAccount(context!!)!= null) {
+            sign_in_google_button.visibility = View.INVISIBLE
+        }
+    }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         loginRegister = activity as OnButtonLoginPressedListener
         registerListener = activity as OnTextRegistredPressedListener
+        googleListener = activity as OnGoogleSignInPressedListener
     }
 
 }

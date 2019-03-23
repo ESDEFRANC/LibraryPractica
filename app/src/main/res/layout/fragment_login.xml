@@ -18,7 +18,7 @@
             android:layout_marginEnd="84dp"
             android:background="@drawable/rounded_edittext_register_main"
             android:ems="10"
-            android:hint="@string/Email"
+            android:hint="@string/UserName"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:inputType="textEmailAddress|textVisiblePassword"
@@ -60,6 +60,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Password"/>
 
+    <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_google_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/Login"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/backToRegister"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintVertical_bias="0.564"/>
+
     <TextView
             android:id="@+id/backToRegister"
             android:layout_width="wrap_content"
@@ -68,11 +82,12 @@
             android:layout_marginTop="60dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/backToRegistratio"
+            android:text="@string/goToRegister"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Login"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.267"
+            app:layout_constraintHorizontal_bias="0.498"/>
 
 </android.support.constraint.ConstraintLayout>

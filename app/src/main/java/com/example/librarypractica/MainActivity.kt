@@ -1,9 +1,16 @@
 package com.example.librarypractica
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
-class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, FavoriteBooksList.OnBookClickedListener, RegisterFragment.OnRegistrationConfirmPressed{
+class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, FavoriteBooksList.OnBookClickedListener, RegisterFragment.OnRegistrationConfirmPressed, LoginFragment.OnGoogleSignInPressedListener{
+
+    override fun onGooglePressed(client: GoogleSignInClient) {
+        val signInIntent = client.signInIntent
+        startActivityForResult(signInIntent, 1234)
+    }
 
     override fun onRegistrationConfirmPressed() {
         val fragmentBooks = FavoriteBooksList()
@@ -12,7 +19,6 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
             replace(R.id.main_container, fragmentBooks).
             commit()
     }
-
 
     override fun onLoginPressed() {
         val fragmentListBooks = FavoriteBooksList()
@@ -28,11 +34,9 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
         supportFragmentManager.
             beginTransaction().
             replace(R.id.main_container, fragmentRegister).
-            addToBackStack(null).
             commit()
 
     }
-
 
 
     override fun onBookClicked(book: Book) {
@@ -54,6 +58,18 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
             beginTransaction().
             replace(R.id.main_container,fragmentLogin).
             commit()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1234) {
+            val fragmentbooks = FavoriteBooksList()
+            supportFragmentManager.
+                beginTransaction().
+                replace(R.id.main_container, fragmentbooks).
+                commit()
+        }
+        
     }
 
 
