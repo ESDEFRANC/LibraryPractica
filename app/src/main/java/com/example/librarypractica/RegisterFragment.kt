@@ -2,6 +2,7 @@ package com.example.librarypractica
 
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
@@ -28,6 +29,7 @@ private const val ARG_PARAM2 = "param2"
 class RegisterFragment : Fragment() {
 
     var listUsers:ArrayList<User> = ArrayList()
+    var thereIsData = false
 
     interface OnRegistrationConfirmPressed {
         fun onRegistrationConfirmPressed()
@@ -56,7 +58,10 @@ class RegisterFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        loadData()
+        checkData()
+        if (thereIsData) {
+            loadData()
+        }
             registerMain.setOnClickListener {
                 fieldsOk = true
                 checkFields()
@@ -66,7 +71,7 @@ class RegisterFragment : Fragment() {
                     buttonRegisteredListener.onRegistrationConfirmPressed()
                 }
             }
-    }
+        }
 
     companion object {
         fun newInstance(username: String):RegisterFragment{
@@ -78,6 +83,11 @@ class RegisterFragment : Fragment() {
 
             return fragmentRegister
         }
+    }
+
+    private fun checkData() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        if (preferences.contains("users")) thereIsData = true
     }
 
     private fun saveLocalData(username:String,password:String){
