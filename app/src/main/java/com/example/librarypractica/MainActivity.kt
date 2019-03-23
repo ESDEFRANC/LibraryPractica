@@ -2,20 +2,22 @@ package com.example.librarypractica
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.R.id.edit
-import android.content.SharedPreferences
-import android.content.SharedPreferences.Editor
-import android.support.v4.app.Fragment
-import android.util.Log
-import kotlinx.android.synthetic.main.fragment_register.*
 
+class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, FavoriteBooksList.OnBookClickedListener, RegisterFragment.OnRegistrationConfirmPressed{
 
-class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, FavoriteBooksList.OnBookClickedListener{
+    override fun onRegistrationConfirmPressed() {
+        val fragmentBooks = FavoriteBooksList()
+        supportFragmentManager.
+            beginTransaction().
+            replace(R.id.main_container, fragmentBooks).
+            commit()
+    }
 
 
     override fun onLoginPressed() {
         val fragmentListBooks = FavoriteBooksList()
-        supportFragmentManager.beginTransaction().
+        supportFragmentManager.
+            beginTransaction().
             replace(R.id.main_container, fragmentListBooks).
             commit()
     }
@@ -23,21 +25,23 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
 
     override fun onRegistredPressed(username: String) {
         val fragmentRegister = RegisterFragment.newInstance(username)
-        supportFragmentManager.beginTransaction().
+        supportFragmentManager.
+            beginTransaction().
             replace(R.id.main_container, fragmentRegister).
             addToBackStack(null).
             commit()
 
     }
-     fun onRegistrationConfirmPressed() {
 
-
-    }
 
 
     override fun onBookClicked(book: Book) {
         val fragmentBook = BookFragment.newInstance(book)
-        supportFragmentManager.beginTransaction().replace(R.id.main_container, fragmentBook).addToBackStack(null).commit()
+        supportFragmentManager.
+            beginTransaction().
+            replace(R.id.main_container, fragmentBook).
+            addToBackStack(null).
+            commit()
     }
 
 
@@ -46,7 +50,8 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val fragmentLogin = LoginFragment()
-        supportFragmentManager.beginTransaction().
+        supportFragmentManager.
+            beginTransaction().
             replace(R.id.main_container,fragmentLogin).
             commit()
     }

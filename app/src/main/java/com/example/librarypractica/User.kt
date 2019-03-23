@@ -1,12 +1,18 @@
 package com.example.librarypractica
 
-class User() {
-    var email:String = ""
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+
+class User():Serializable {
+    @SerializedName("username")
+    var username:String = ""
+    @SerializedName("password")
     var password:String = ""
-    var list:ArrayList<Book>? = null
+    @SerializedName("favoriteBooks")
+    var favoriteBooks:ArrayList<Book>? = null
 
     constructor(mail: String, password: String): this() {
-        this.email = mail
+        this.username = mail
         this.password = password
     }
 }

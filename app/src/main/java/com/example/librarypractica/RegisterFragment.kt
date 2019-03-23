@@ -2,8 +2,6 @@ package com.example.librarypractica
 
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
@@ -13,8 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_register.*
+import java.lang.reflect.Type
 import java.util.regex.Pattern
 
 
@@ -28,13 +27,15 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class RegisterFragment : Fragment() {
-    var listUers:ArrayList<User> = ArrayList()
+
+    var listUsers:ArrayList<User> = ArrayList()
+
     interface OnRegistrationConfirmPressed {
         fun onRegistrationConfirmPressed()
-
     }
+
     private lateinit var buttonRegisteredListener: OnRegistrationConfirmPressed
-    private lateinit var username:String
+    private var fieldsOk = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,13 +57,16 @@ class RegisterFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        registerMain.setOnClickListener(){
-            if(checkPassword()){
-                saveLocalData(nameMain.text.toString(),passwordMain.text.toString())
+        loadData()
+            registerMain.setOnClickListener {
+                fieldsOk = true
+                checkFields()
+                if (fieldsOk) {
+
+                    saveLocalData(nameMain.text.toString(), passwordMain.text.toString())
+                    buttonRegisteredListener.onRegistrationConfirmPressed()
+                }
             }
-
-        }
-
     }
 
     companion object {
@@ -77,28 +81,60 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun saveLocalData(email:String,password:String){
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        // save device token
-        val user = User(email,password)
-        listUers.add(user)
-        val gson:Gson = Gson()
-        val json = gson.toJson(listUers)
+    private fun saveLocalData(username:String,password:String){
 
-        preferences.edit().putString("Email",json).apply()
-        Log.d("Emailverification",preferences.all.toString())
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val user = User(username,password)
+        listUsers.add(user)
+        val gson = Gson()
+        val json = gson.toJson(listUsers)
+
+        preferences.edit().putString("users",json).apply()
+        Log.d("UsernameVerification", preferences.all.toString())
     }
-    private fun checkPassword():Boolean{
-        return passwordMain.text.toString() == passwordMain2.text.toString()
+
+    private fun loadData() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val gson = Gson()
+        val json = preferences.getString("users", null)
+        val usersType = object : TypeToken<List<User>>() {}.type
+        listUsers = gson.fromJson(json, usersType)
     }
-    private fun checkUserName(name: String): Boolean {
-        val regex = "^[a-zA-Z0-9]+$"
-        val p = Pattern.compile(regex)
-        val nametrimed = name.trim()
-        val m = p.matcher(nametrimed)
-        val b = m.matches()
-        return b
+
+    private fun checkFields() {
+        checkUserName()
+        checkPassword()
+        checkRepeatPassword()
     }
+
+    private fun checkRepeatPassword() {
+        if (passwordMain2.text.toString() != passwordMain.text.toString()) {
+            passwordMain.error = "Passwords desn't match"
+            fieldsOk = false
+        }
+    }
+
+    private fun checkPassword(){
+        val password = passwordMain.text.toString()
+        if (password.isEmpty() || password.length < 8) {
+            passwordMain.error = "The password cannot be empty or have a length of less then 8 characters"
+            fieldsOk = false
+        }
+    }
+
+    private fun checkUserName() {
+        val username = nameMain.text.toString()
+        if (!Pattern.compile("^[a-zA-Z0-9]+$").matcher(username).matches()) {
+            nameMain.error = "Username not valid"
+            fieldsOk = false
+        }
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        buttonRegisteredListener = activity as OnRegistrationConfirmPressed
+    }
+
 
 
 
