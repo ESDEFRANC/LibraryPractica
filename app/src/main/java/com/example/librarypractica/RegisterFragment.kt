@@ -3,6 +3,7 @@ package com.example.librarypractica
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
@@ -50,7 +51,15 @@ class RegisterFragment : Fragment() {
         super.onStart()
         updateText()
     }
+    override fun onResume() {
+        super.onResume()
+        activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+    }
 
+    override fun onPause() {
+        super.onPause()
+        activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR;
+    }
     private fun updateText() {
         val usernameToRegister = arguments!!.getSerializable("username")
         nameMain.text = Editable.Factory.getInstance().newEditable(usernameToRegister.toString())
@@ -91,7 +100,6 @@ class RegisterFragment : Fragment() {
     }
 
     private fun saveLocalData(username:String,password:String){
-
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val user = User(username,password)
         listUsers.add(user)
@@ -99,7 +107,7 @@ class RegisterFragment : Fragment() {
         val json = gson.toJson(listUsers)
 
         preferences.edit().putString("users",json).apply()
-        Log.d("UsernameVerification", preferences.all.toString())
+
     }
 
     private fun loadData() {
@@ -108,6 +116,7 @@ class RegisterFragment : Fragment() {
         val json = preferences.getString("users", null)
         val usersType = object : TypeToken<List<User>>() {}.type
         listUsers = gson.fromJson(json, usersType)
+        Log.d("UsernameVerification", preferences.all.toString())
     }
 
     private fun checkFields() {
@@ -115,6 +124,7 @@ class RegisterFragment : Fragment() {
         checkPassword()
         checkRepeatPassword()
     }
+
 
     private fun checkRepeatPassword() {
         if (passwordMain2.text.toString() != passwordMain.text.toString()) {

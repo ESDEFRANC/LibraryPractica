@@ -2,14 +2,19 @@ package com.example.librarypractica
 
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
@@ -23,6 +28,9 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class LoginFragment : Fragment() {
+
+    var listUsers:ArrayList<User> = ArrayList()
+    var isRegistered = false
 
     interface OnGoogleSignInPressedListener {
         fun onGooglePressed(client: GoogleSignInClient)
@@ -57,7 +65,17 @@ class LoginFragment : Fragment() {
             build()
         mGoogleSignInClient= GoogleSignIn.getClient(context!!, gso)
         Login.setOnClickListener {
-            loginRegister.onLoginPressed()
+
+            loadData()
+            checkUser()
+            if(isRegistered){
+                loginRegister.onLoginPressed()
+            }else{
+                    Email.error = "Wrong Email or Password"
+            }
+
+
+
         }
 
         sign_in_google_button.setOnClickListener {
@@ -77,6 +95,30 @@ class LoginFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR;
+    }
+    private fun loadData() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val gson = Gson()
+        val json = preferences.getString("users", null)
+        val usersType = object : TypeToken<List<User>>() {}.type
+        listUsers = gson.fromJson(json, usersType)
+    }
+
+    private fun checkUser(){
+        for (user in listUsers){
+            if(user.username == Email.text.toString() && user.password == Password.text.toString()){
+                    isRegistered = true
+            }
+        }
+    }
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         loginRegister = activity as OnButtonLoginPressedListener
