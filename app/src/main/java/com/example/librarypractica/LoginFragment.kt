@@ -32,6 +32,12 @@ class LoginFragment : Fragment() {
     var listUsers:ArrayList<User> = ArrayList()
     var isRegistered = false
     var thereIsData = false
+    private var theGoogleAccountIsInDB = false
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var loginRegister: OnButtonLoginPressedListener
+    private lateinit var registerListener: OnTextRegistredPressedListener
+    private lateinit var googleListener: OnGoogleSignInPressedListener
+    private lateinit var gso:GoogleSignInOptions
 
     interface OnGoogleSignInPressedListener {
         fun onGooglePressed(client: GoogleSignInClient)
@@ -46,11 +52,6 @@ class LoginFragment : Fragment() {
 
     }
 
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
-    private lateinit var loginRegister: OnButtonLoginPressedListener
-    private lateinit var registerListener: OnTextRegistredPressedListener
-    private lateinit var googleListener: OnGoogleSignInPressedListener
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,10 +62,10 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
             requestEmail().
             build()
-        mGoogleSignInClient= GoogleSignIn.getClient(context!!, gso)
+
         Login.setOnClickListener {
             checkData()
             if (thereIsData) {
@@ -79,12 +80,14 @@ class LoginFragment : Fragment() {
                 Toast.makeText(context, "You have to be registered first", Toast.LENGTH_LONG).show()
             }
 
-
-
         }
 
         sign_in_google_button.setOnClickListener {
             googleListener.onGooglePressed(mGoogleSignInClient)
+            checkIfGoogleAccountIsinDB()
+            if(theGoogleAccountIsInDB) {
+                saveGoogleAccountData()
+            }
         }
 
         backToRegister.setOnClickListener {
@@ -99,6 +102,7 @@ class LoginFragment : Fragment() {
             sign_in_google_button.visibility = View.INVISIBLE
         }
     }
+
     private fun loadData() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val gson = Gson()
@@ -125,6 +129,26 @@ class LoginFragment : Fragment() {
     private fun checkData() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         if (preferences.contains("users")) thereIsData = true
+    }
+
+    private fun saveGoogleAccountData() {
+        val acc = GoogleSignIn.getLastSignedInAccount(context)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val user = User(acc!!.email!!, acc.id!!)
+        listUsers.add(user)
+        val gson = Gson()
+        val json = gson.toJson(listUsers)
+
+        preferences.edit().putString("users",json).apply()
+    }
+
+    private fun checkIfGoogleAccountIsinDB() {
+        val acc = GoogleSignIn.getLastSignedInAccount(context)
+        for (user in listUsers) {
+            if(user.username == acc!!.email && user.password == acc.id) {
+                theGoogleAccountIsInDB = true
+            }
+        }
     }
 
 }
