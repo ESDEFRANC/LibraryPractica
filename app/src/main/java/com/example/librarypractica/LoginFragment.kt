@@ -31,6 +31,7 @@ class LoginFragment : Fragment() {
 
     var listUsers:ArrayList<User> = ArrayList()
     var isRegistered = false
+    var thereIsData = false
 
     interface OnGoogleSignInPressedListener {
         fun onGooglePressed(client: GoogleSignInClient)
@@ -65,13 +66,17 @@ class LoginFragment : Fragment() {
             build()
         mGoogleSignInClient= GoogleSignIn.getClient(context!!, gso)
         Login.setOnClickListener {
-
-            loadData()
-            checkUser()
-            if(isRegistered){
-                loginRegister.onLoginPressed()
-            }else{
+            checkData()
+            if (thereIsData) {
+                loadData()
+                checkUser()
+                if (isRegistered) {
+                    loginRegister.onLoginPressed()
+                } else {
                     Email.error = "Wrong Email or Password"
+                }
+            }else {
+                Toast.makeText(context, "You have to be registered first", Toast.LENGTH_LONG).show()
             }
 
 
@@ -119,11 +124,17 @@ class LoginFragment : Fragment() {
             }
         }
     }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         loginRegister = activity as OnButtonLoginPressedListener
         registerListener = activity as OnTextRegistredPressedListener
         googleListener = activity as OnGoogleSignInPressedListener
+    }
+
+    private fun checkData() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        if (preferences.contains("users")) thereIsData = true
     }
 
 }

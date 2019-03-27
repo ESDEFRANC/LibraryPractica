@@ -2,7 +2,6 @@ package com.example.librarypractica
 
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.preference.PreferenceManager
