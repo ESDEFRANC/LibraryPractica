@@ -50,15 +50,6 @@ class RegisterFragment : Fragment() {
         super.onStart()
         updateText()
     }
-    override fun onResume() {
-        super.onResume()
-        activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-    }
-
-    override fun onPause() {
-        super.onPause()
-        activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR;
-    }
     private fun updateText() {
         val usernameToRegister = arguments!!.getSerializable("username")
         nameMain.text = Editable.Factory.getInstance().newEditable(usernameToRegister.toString())

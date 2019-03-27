@@ -99,16 +99,6 @@ class LoginFragment : Fragment() {
             sign_in_google_button.visibility = View.INVISIBLE
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-    }
-
-    override fun onPause() {
-        super.onPause()
-        activity!!.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR;
-    }
     private fun loadData() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val gson = Gson()
