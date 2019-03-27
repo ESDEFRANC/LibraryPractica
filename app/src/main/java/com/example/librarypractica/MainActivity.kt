@@ -29,13 +29,14 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
             commit()
     }
 
-
     override fun onRegistredPressed(username: String) {
         val fragmentRegister = RegisterFragment.newInstance(username)
         supportFragmentManager.
             beginTransaction().
             replace(R.id.main_container, fragmentRegister).
+            addToBackStack(null).
             commit()
+
 
     }
 
@@ -54,12 +55,10 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val fragmentLogin = LoginFragment()
-        supportFragmentManager.
-            beginTransaction().
-            replace(R.id.main_container,fragmentLogin).
-            commit()
+        if (savedInstanceState == null) {
+            val fragmentLogin = LoginFragment()
+            supportFragmentManager.beginTransaction().add(R.id.main_container, fragmentLogin).commit()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

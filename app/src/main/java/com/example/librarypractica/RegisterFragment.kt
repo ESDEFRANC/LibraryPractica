@@ -84,6 +84,10 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
+
     private fun checkData() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         if (preferences.contains("users")) thereIsData = true
