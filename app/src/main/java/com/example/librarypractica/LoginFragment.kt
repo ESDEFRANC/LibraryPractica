@@ -2,15 +2,16 @@ package com.example.librarypractica
 
 
 import android.content.Context
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.gson.Gson
@@ -33,6 +34,7 @@ class LoginFragment : Fragment() {
     var isRegistered = false
     var thereIsData = false
     private var theGoogleAccountIsInDB = false
+    private var account:GoogleSignInAccount? = null
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var loginRegister: OnButtonLoginPressedListener
     private lateinit var registerListener: OnTextRegistredPressedListener
@@ -65,7 +67,7 @@ class LoginFragment : Fragment() {
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
             requestEmail().
             build()
-
+        mGoogleSignInClient= GoogleSignIn.getClient(context!!, gso)
         Login.setOnClickListener {
             checkData()
             if (thereIsData) {
@@ -84,10 +86,12 @@ class LoginFragment : Fragment() {
 
         sign_in_google_button.setOnClickListener {
             googleListener.onGooglePressed(mGoogleSignInClient)
-            checkIfGoogleAccountIsinDB()
-            if(theGoogleAccountIsInDB) {
+            checkData()
+            if(!theGoogleAccountIsInDB && thereIsData) {
                 saveGoogleAccountData()
             }
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            Log.d("GoogleUser", preferences.all.toString())
         }
 
         backToRegister.setOnClickListener {
@@ -96,10 +100,17 @@ class LoginFragment : Fragment() {
 
     }
 
+
+
     override fun onStart() {
         super.onStart()
-        if (GoogleSignIn.getLastSignedInAccount(context!!)!= null) {
-            sign_in_google_button.visibility = View.INVISIBLE
+        if (GoogleSignIn.getLastSignedInAccount(activity)!= null) {
+            account = GoogleSignIn.getLastSignedInAccount(activity)
+            checkData()
+            if (thereIsData) {
+                loadData()
+                checkIfGoogleAccountIsinDB()
+            }
         }
     }
 
@@ -132,9 +143,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun saveGoogleAccountData() {
-        val acc = GoogleSignIn.getLastSignedInAccount(context)
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val user = User(acc!!.email!!, acc.id!!)
+        val user = User(account!!.email!!, account!!.id!!)
         listUsers.add(user)
         val gson = Gson()
         val json = gson.toJson(listUsers)
@@ -143,9 +153,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkIfGoogleAccountIsinDB() {
-        val acc = GoogleSignIn.getLastSignedInAccount(context)
         for (user in listUsers) {
-            if(user.username == acc!!.email && user.password == acc.id) {
+            if(user.username == account!!.email && user.password == account!!.id) {
                 theGoogleAccountIsInDB = true
             }
         }
