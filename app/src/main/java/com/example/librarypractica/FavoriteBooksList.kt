@@ -7,7 +7,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.*
-
+import kotlinx.android.synthetic.main.fragment_favorite_books_list.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -26,7 +26,6 @@ class FavoriteBooksList : Fragment() {
     }
 
     var fetchedBooks: Volumes? = null
-
     var fetchBook: FetchBooks? = null
     var books:ArrayList<Book> = ArrayList()
     var list: RecyclerView? = null
@@ -63,6 +62,18 @@ class FavoriteBooksList : Fragment() {
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        showDetails()
+    }
+
+    private fun showDetails() {
+        val item = arguments!!.getParcelable<User>("user")
+        textView.text = "Welcome Back ${item.username}"
+
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         configureList()
@@ -91,6 +102,19 @@ class FavoriteBooksList : Fragment() {
             listenerList.onBookClicked(it)
         }
         //adapter.notifyDataSetChanged()
+    }
+
+    companion object {
+
+        fun newInstance(user: User): FavoriteBooksList{
+            val fragmentList = FavoriteBooksList()
+            val args = Bundle()
+
+            args.putParcelable("user", user)
+            fragmentList.arguments = args
+
+            return fragmentList
+        }
     }
 }
 

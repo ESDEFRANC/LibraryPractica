@@ -31,6 +31,7 @@ private const val ARG_PARAM2 = "param2"
 class LoginFragment : Fragment() {
 
     var listUsers:ArrayList<User> = ArrayList()
+    var user: User? = null
     var isRegistered = false
     var thereIsData = false
     private var theGoogleAccountIsInDB = false
@@ -42,11 +43,11 @@ class LoginFragment : Fragment() {
     private lateinit var gso:GoogleSignInOptions
 
     interface OnGoogleSignInPressedListener {
-        fun onGooglePressed(client: GoogleSignInClient)
+        fun onGooglePressed(client: GoogleSignInClient, user:User)
     }
 
     interface OnButtonLoginPressedListener {
-        fun onLoginPressed()
+        fun onLoginPressed(user: User)
     }
 
     interface OnTextRegistredPressedListener {
@@ -74,7 +75,7 @@ class LoginFragment : Fragment() {
                 loadData()
                 checkUser()
                 if (isRegistered) {
-                    loginRegister.onLoginPressed()
+                    loginRegister.onLoginPressed(user!!)
                 } else {
                     Email.error = "Wrong Email or Password"
                 }
@@ -85,7 +86,7 @@ class LoginFragment : Fragment() {
         }
 
         sign_in_google_button.setOnClickListener {
-            googleListener.onGooglePressed(mGoogleSignInClient)
+            googleListener.onGooglePressed(mGoogleSignInClient, user!!)
             checkData()
             if(!theGoogleAccountIsInDB && thereIsData) {
                 saveGoogleAccountData()
@@ -123,9 +124,10 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkUser(){
-        for (user in listUsers){
-            if(user.username == Email.text.toString() && user.password == Password.text.toString()){
+        for (userIt in listUsers){
+            if(userIt.username == Email.text.toString() && userIt.password == Password.text.toString()){
                     isRegistered = true
+                user = User(Email.text.toString(), Password.text.toString(), null)
             }
         }
     }
@@ -144,8 +146,8 @@ class LoginFragment : Fragment() {
 
     private fun saveGoogleAccountData() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val user = User(account!!.email!!, account!!.id!!)
-        listUsers.add(user)
+        user = User(account!!.email!!, account!!.id!!, null)
+        listUsers.add(user!!)
         val gson = Gson()
         val json = gson.toJson(listUsers)
 

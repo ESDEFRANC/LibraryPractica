@@ -43,7 +43,7 @@ class BookFragment : Fragment() {
 
         //cover.setImageResource(item.img)
         Title.text = item.title
-        Author.text = item.authors
+        Author.text = item.authors.toString()
         Editorial.text = item.publisher
         synopsis.text = item.description
     }

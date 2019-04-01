@@ -30,9 +30,10 @@ class RegisterFragment : Fragment() {
 
     var listUsers:ArrayList<User> = ArrayList()
     var thereIsData = false
+    var user: User? = null
 
     interface OnRegistrationConfirmPressed {
-        fun onRegistrationConfirmPressed()
+        fun onRegistrationConfirmPressed(user:User)
     }
 
     private lateinit var buttonRegisteredListener: OnRegistrationConfirmPressed
@@ -67,7 +68,7 @@ class RegisterFragment : Fragment() {
                 if (fieldsOk) {
 
                     saveLocalData(nameMain.text.toString(), passwordMain.text.toString())
-                    buttonRegisteredListener.onRegistrationConfirmPressed()
+                    buttonRegisteredListener.onRegistrationConfirmPressed(user!!)
                 }
             }
         }
@@ -95,8 +96,8 @@ class RegisterFragment : Fragment() {
 
     private fun saveLocalData(username:String,password:String){
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val user = User(username,password)
-        listUsers.add(user)
+        user = User(username,password, null)
+        listUsers.add(user!!)
         val gson = Gson()
         val json = gson.toJson(listUsers)
 

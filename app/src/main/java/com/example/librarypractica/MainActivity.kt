@@ -8,21 +8,21 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, FavoriteBooksList.OnBookClickedListener, RegisterFragment.OnRegistrationConfirmPressed, LoginFragment.OnGoogleSignInPressedListener{
 
-    override fun onGooglePressed(client: GoogleSignInClient) {
+    override fun onGooglePressed(client: GoogleSignInClient, user: User) {
         val signInIntent = client.signInIntent
         startActivityForResult(signInIntent, 1234)
     }
 
-    override fun onRegistrationConfirmPressed() {
-        val fragmentBooks = FavoriteBooksList()
+    override fun onRegistrationConfirmPressed(user:User) {
+        val fragmentBooks = FavoriteBooksList.newInstance(user)
         supportFragmentManager.
             beginTransaction().
             replace(R.id.main_container, fragmentBooks).
             commit()
     }
 
-    override fun onLoginPressed() {
-        val fragmentListBooks = FavoriteBooksList()
+    override fun onLoginPressed(user:User) {
+        val fragmentListBooks = FavoriteBooksList.newInstance(user)
         supportFragmentManager.
             beginTransaction().
             replace(R.id.main_container, fragmentListBooks).
