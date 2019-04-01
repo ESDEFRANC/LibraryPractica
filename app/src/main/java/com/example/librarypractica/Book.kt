@@ -3,10 +3,10 @@ package com.example.librarypractica
 import android.os.Parcel
 import android.os.Parcelable
 
-class Book(val title: String?, var img: Int, var author : String?, var editorial: String?, var synopsis: String?) : Parcelable {
+class Book(val title: String?, var authors : String?, var publisher: String?, var description: String?, var thumbnail: String?) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
-        parcel.readInt(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
@@ -14,10 +14,10 @@ class Book(val title: String?, var img: Int, var author : String?, var editorial
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(title)
-        parcel.writeInt(img)
-        parcel.writeString(author)
-        parcel.writeString(editorial)
-        parcel.writeString(synopsis)
+        parcel.writeString(authors)
+        parcel.writeString(publisher)
+        parcel.writeString(description)
+        parcel.writeString(thumbnail)
     }
 
     override fun describeContents(): Int {

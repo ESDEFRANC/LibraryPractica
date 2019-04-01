@@ -41,11 +41,11 @@ class BookFragment : Fragment() {
     private fun showDetails() {
         val item = arguments!!.getParcelable<Book>("book")
 
-        cover.setImageResource(item.img)
+        //cover.setImageResource(item.img)
         Title.text = item.title
-        Author.text = item.author
-        Editorial.text = item.editorial
-        synopsis.text = item.synopsis
+        Author.text = item.authors
+        Editorial.text = item.publisher
+        synopsis.text = item.description
     }
 
     companion object {
