@@ -25,8 +25,6 @@ class FavoriteBooksList : Fragment() {
         fun onBookClicked(book:Book)
     }
 
-    var fetchedBooks: Volumes? = null
-    var fetchBook: FetchBooks? = null
     var books:ArrayList<Book> = ArrayList()
     var list: RecyclerView? = null
     lateinit var listenerList:OnBookClickedListener
@@ -41,27 +39,6 @@ class FavoriteBooksList : Fragment() {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater:MenuInflater){
-        inflater.inflate(R.menu.nav_menu, menu)
-        fetchBook = FetchBooks()
-        val searchItem = menu?.findItem(R.id.search)
-        val searchView = searchItem?.actionView as SearchView
-
-        searchView.queryHint = "Search a book..."
-
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(p0: String?): Boolean {
-               return true
-            }
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                fetchedBooks = fetchBook!!.fetchJSON(query)
-                return true
-            }
-
-        })
-    }
-
     override fun onStart() {
         super.onStart()
 
@@ -70,7 +47,12 @@ class FavoriteBooksList : Fragment() {
 
     private fun showDetails() {
         val item = arguments!!.getParcelable<User>("user")
-        textView.text = "Welcome Back ${item.username}"
+        textView.text = "Welcome ${item.username}"
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater:MenuInflater){
+        inflater.inflate(R.menu.nav_menu, menu)
 
     }
 

@@ -2,8 +2,29 @@ package com.example.librarypractica
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 
-class Book(val title: String?, var authors: Array<Any>?, var publisher: String?, var description: String?, var thumbnail: String?) : Parcelable {
+class Book(title: String, authors: Array<Any>, publisher: String, description: String, thumbnail: String) : Parcelable {
+
+    @SerializedName("title")
+    var title:String? = null
+    @SerializedName("authors")
+    var authors:Array<Any>? = null
+    @SerializedName("publisher")
+    var publisher:String? = null
+    @SerializedName("description")
+    var description:String? = null
+    @SerializedName("thumbnail")
+    var thumbnail:String? = null
+
+
+    init {
+        this.title = title
+        this.authors = authors
+        this.publisher = publisher
+        this.description = description
+        this.thumbnail = thumbnail
+    }
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readArray(String::class.java.classLoader),
