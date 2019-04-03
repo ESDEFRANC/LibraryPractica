@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.*
+import android.widget.ProgressBar
 import kotlinx.android.synthetic.main.fragment_favorite_books_list.*
 
 

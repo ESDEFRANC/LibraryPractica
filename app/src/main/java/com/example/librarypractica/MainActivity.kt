@@ -5,16 +5,14 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.SearchView
 import android.view.MenuItem
-import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.gson.GsonBuilder
-import okhttp3.*
-import java.io.IOException
 
 class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, FavoriteBooksList.OnBookClickedListener, RegisterFragment.OnRegistrationConfirmPressed, LoginFragment.OnGoogleSignInPressedListener{
 
+
+    var booksSearched: ArrayList<Book>? = null
+
     val BASE_URL = "https://www.googleapis.com/books/v1/volumes?q="
-    var volumes:Volumes? = null
 
     override fun onGooglePressed(client: GoogleSignInClient, user: User) {
         val signInIntent = client.signInIntent
@@ -71,8 +69,10 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
                     }
 
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        fetchBooks(query)
-                        val searchFragment = SearchFragment()
+
+                        //val booksLoader = BooksLoader(this@MainActivity, BASE_URL + query)
+                        //booksSearched = booksLoader.loadInBackground() as ArrayList<Book>
+                        val searchFragment = SearchFragment.newInstance(query)
                         supportFragmentManager.
                             beginTransaction().
                             replace(R.id.main_container, searchFragment).
@@ -89,29 +89,6 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
             }
         }
         return true
-    }
-
-    private fun fetchBooks(query:String?) {
-        val request = Request.
-            Builder().
-            url(BASE_URL + query).
-            build()
-
-        val client = OkHttpClient()
-        client.newCall(request).enqueue(object: Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Toast.makeText(this@MainActivity, "Check your Internet connection", Toast.LENGTH_LONG ).show()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body()?.string()
-                val gson = GsonBuilder().create()
-
-                volumes = gson.fromJson(body, Volumes::class.java)
-
-            }
-
-        })
     }
 
 

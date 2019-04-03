@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
-class Book(title: String, authors: Array<Any>, publisher: String, description: String, thumbnail: String) : Parcelable {
+class Book(title: String, author:String, publisher: String, description: String, thumbnail: String) : Parcelable {
 
     @SerializedName("title")
     var title:String? = null
@@ -27,7 +27,7 @@ class Book(title: String, authors: Array<Any>, publisher: String, description: S
     }
     constructor(parcel: Parcel) : this(
         parcel.readString(),
-        parcel.readArray(String::class.java.classLoader),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
