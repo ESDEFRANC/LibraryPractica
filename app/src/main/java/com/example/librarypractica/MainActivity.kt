@@ -14,7 +14,7 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
 
     val BASE_URL = "https://www.googleapis.com/books/v1/volumes?q="
 
-    override fun onGooglePressed(client: GoogleSignInClient, user: User) {
+    override fun onGooglePressed(client: GoogleSignInClient) {
         val signInIntent = client.signInIntent
         startActivityForResult(signInIntent, 1234)
     }

@@ -43,7 +43,7 @@ class LoginFragment : Fragment() {
     private lateinit var gso:GoogleSignInOptions
 
     interface OnGoogleSignInPressedListener {
-        fun onGooglePressed(client: GoogleSignInClient, user:User)
+        fun onGooglePressed(client: GoogleSignInClient)
     }
 
     interface OnButtonLoginPressedListener {
@@ -86,7 +86,7 @@ class LoginFragment : Fragment() {
         }
 
         sign_in_google_button.setOnClickListener {
-            googleListener.onGooglePressed(mGoogleSignInClient, user!!)
+            googleListener.onGooglePressed(mGoogleSignInClient)
             checkData()
             if(!theGoogleAccountIsInDB && thereIsData) {
                 saveGoogleAccountData()

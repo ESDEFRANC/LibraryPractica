@@ -39,13 +39,13 @@ class BookFragment : Fragment() {
     }
 
     private fun showDetails() {
-        val item = arguments!!.getParcelable<Book>("book")
+       /* val item = arguments!!.getParcelable<Book>("book")
 
         //cover.setImageResource(item.img)
         Title.text = item.title
         Author.text = item.authors.toString()
         Editorial.text = item.publisher
-        synopsis.text = item.description
+        synopsis.text = item.description*/
     }
 
     companion object {
@@ -54,7 +54,7 @@ class BookFragment : Fragment() {
             val fragmentDetails = BookFragment()
             val args = Bundle()
 
-            args.putParcelable("book", book)
+            //args.putParcelable("book", book)
             fragmentDetails.arguments = args
 
             return fragmentDetails
