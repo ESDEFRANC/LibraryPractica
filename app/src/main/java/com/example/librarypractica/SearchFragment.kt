@@ -38,7 +38,14 @@ class SearchFragment : Fragment(){
 
     private fun configureList() {
         books_list.setHasFixedSize(true)
-        books_list.layoutManager = GridLayoutManager(this.context,2)
+        if(isLargeScreen() && !isPortrait()){
+            books_list.layoutManager = GridLayoutManager(this.context,4)
+
+        }else if(isLargeScreen() && isPortrait()){
+            books_list.layoutManager = GridLayoutManager(this.context,3)
+        }else{
+            books_list.layoutManager = GridLayoutManager(this.context,2)
+        }
         adapterCustom = AdapterCustomBooks(this.context!!, emptyList()){
             listenerList.onBookClicked(it)}
         books_list.adapter = adapterCustom
@@ -88,6 +95,14 @@ class SearchFragment : Fragment(){
 
             return fragmentSearch
         }
+    }
+
+    private fun isLargeScreen(): Boolean {
+        return resources.getBoolean(R.bool.large)
+    }
+
+    private fun isPortrait(): Boolean {
+        return resources.getBoolean(R.bool.portrait)
     }
 
 

@@ -99,6 +99,7 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
             val fragmentLogin = LoginFragment()
             supportFragmentManager.beginTransaction().add(R.id.main_container, fragmentLogin).commit()
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -112,9 +113,5 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
         }
 
     }
-    private fun isLargeScreen(): Boolean {
-        return resources.getBoolean(R.bool.large)
-    }
-
 
 }
