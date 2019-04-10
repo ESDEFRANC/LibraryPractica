@@ -127,7 +127,7 @@ class LoginFragment : Fragment() {
         for (userIt in listUsers){
             if(userIt.username == Email.text.toString() && userIt.password == Password.text.toString()){
                     isRegistered = true
-                user = User(Email.text.toString(), Password.text.toString(), null)
+                this.user = userIt
             }
         }
     }

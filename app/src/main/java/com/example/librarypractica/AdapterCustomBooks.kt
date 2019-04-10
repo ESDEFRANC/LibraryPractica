@@ -5,16 +5,16 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.template_recycler.view.*
 
-class AdapterCustomBooks(mContext: Context?, movies:List<Book>, val listener: (Book) -> Unit) : RecyclerView.Adapter<AdapterCustomBooks.ViewHolder>() {
+class AdapterCustomBooks(mContext: Context?, movies:List<Book>, val listener: (Item) -> Unit) : RecyclerView.Adapter<AdapterCustomBooks.ViewHolder>() {
 
 
     private var mContext: Context? = null
-    private var books: List<Book> = ArrayList()
+    private var books: List<Item> = ArrayList()
 
     init {
-        this.books = movies
         this.mContext = mContext
     }
 
@@ -30,13 +30,18 @@ class AdapterCustomBooks(mContext: Context?, movies:List<Book>, val listener: (B
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(books[position],listener)
 
+
+    }
+
+    fun setBooks(books: List<Item>) {
+        this.books = books
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item:Book, listener: (Book) -> Unit) = with(itemView) {
-           // bookCover!!.setImageResource(item.img)
-            bookTitle!!.text = item.title
+        fun bind(item:Item, listener: (Item) -> Unit) = with(itemView) {
+            Picasso.get().load(item.volumeInfo?.imageLinks?.thumbnail).into(bookCover)
+            bookTitle!!.text = item.volumeInfo?.title
             setOnClickListener{
                 listener(item)
             }

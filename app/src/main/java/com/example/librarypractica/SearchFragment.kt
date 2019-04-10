@@ -2,10 +2,13 @@ package com.example.librarypractica
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import kotlinx.android.synthetic.main.fragment_favorite_books_list.*
+import kotlinx.android.synthetic.main.fragment_search.*
 import java.util.ArrayList
 
 
@@ -21,13 +24,24 @@ private const val ARG_PARAM2 = "param2"
 class SearchFragment : Fragment(){
 
     private var booksRepository: BooksSearchedRepository? = null
+    private var adapterCustom: AdapterCustomBooks? = null
+    lateinit var listenerList: FavoriteBooksList.OnBookClickedListener
 
     var query:String? = null
-     var listSearchedBooks:List<Item> = ArrayList()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        configureList()
         getSearchedBooks()
+
+    }
+
+    private fun configureList() {
+        books_list.setHasFixedSize(true)
+        books_list.layoutManager = GridLayoutManager(this.context,2)
+        adapterCustom = AdapterCustomBooks(this.context!!, emptyList()){
+            listenerList.onBookClicked(it)}
+        books_list.adapter = adapterCustom
 
     }
 
@@ -35,7 +49,8 @@ class SearchFragment : Fragment(){
         booksRepository = BooksSearchedRepository.instance
         booksRepository!!.getBooks(query!!, object : OnGetSearchedBooksCallback {
             override fun onSuccess(books: List<Item>) {
-                listSearchedBooks = books
+                adapterCustom!!.setBooks(books)
+                adapterCustom!!.notifyDataSetChanged()
             }
 
             override fun onError() {
@@ -60,7 +75,7 @@ class SearchFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        return inflater.inflate(R.layout.fragment_favorite_books_list, container, false)
     }
 
     companion object {

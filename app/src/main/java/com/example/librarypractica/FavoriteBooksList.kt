@@ -23,7 +23,7 @@ private const val ARG_PARAM2 = "param2"
 class FavoriteBooksList : Fragment() {
 
     interface OnBookClickedListener {
-        fun onBookClicked(book:Book)
+        fun onBookClicked(book:Item)
     }
 
     var books:ArrayList<Book> = ArrayList()
@@ -66,7 +66,7 @@ class FavoriteBooksList : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         //addProductstoList()
-        listenerList = context as OnBookClickedListener
+        //listenerList = context as OnBookClickedListener
 
     }
 
@@ -80,7 +80,7 @@ class FavoriteBooksList : Fragment() {
     fun configureList() {
         list = activity!!.findViewById(R.id.books_list)
         list?.setHasFixedSize(true)
-        list?.layoutManager = GridLayoutManager(this.context,2)
+        //list?.layoutManager = GridLayoutManager(this.context,2)
         list?.adapter = AdapterCustomBooks(context, books) {
             listenerList.onBookClicked(it)
         }

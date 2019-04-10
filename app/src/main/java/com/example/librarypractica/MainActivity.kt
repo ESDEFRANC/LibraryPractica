@@ -7,7 +7,7 @@ import android.support.v7.widget.SearchView
 import android.view.MenuItem
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
-class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, FavoriteBooksList.OnBookClickedListener, RegisterFragment.OnRegistrationConfirmPressed, LoginFragment.OnGoogleSignInPressedListener{
+class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, /*FavoriteBooksList.OnBookClickedListener*/RegisterFragment.OnRegistrationConfirmPressed, LoginFragment.OnGoogleSignInPressedListener{
 
 
     var booksSearched: ArrayList<Book>? = null
@@ -47,14 +47,14 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
     }
 
 
-    override fun onBookClicked(book: Book) {
+    /*override fun onBookClicked(book: Item) {
         val fragmentBook = BookFragment.newInstance(book)
         supportFragmentManager.
             beginTransaction().
             replace(R.id.main_container, fragmentBook).
             addToBackStack(null).
             commit()
-    }
+    }*/
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
