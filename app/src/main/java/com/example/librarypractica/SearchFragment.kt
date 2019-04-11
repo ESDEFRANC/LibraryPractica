@@ -37,18 +37,18 @@ class SearchFragment : Fragment(){
     }
 
     private fun configureList() {
-        books_list.setHasFixedSize(true)
+        searched_books_list.setHasFixedSize(true)
         if(isLargeScreen() && !isPortrait()){
-            books_list.layoutManager = GridLayoutManager(this.context,4)
+            searched_books_list.layoutManager = GridLayoutManager(this.context,4)
 
         }else if(isLargeScreen() && isPortrait()){
-            books_list.layoutManager = GridLayoutManager(this.context,3)
+            searched_books_list.layoutManager = GridLayoutManager(this.context,3)
         }else{
-            books_list.layoutManager = GridLayoutManager(this.context,2)
+            searched_books_list.layoutManager = GridLayoutManager(this.context,2)
         }
         adapterCustom = AdapterCustomBooks(this.context!!, emptyList()){
             listenerList.onBookClicked(it)}
-        books_list.adapter = adapterCustom
+        searched_books_list.adapter = adapterCustom
 
     }
 
@@ -58,6 +58,7 @@ class SearchFragment : Fragment(){
             override fun onSuccess(books: List<Item>) {
                 adapterCustom!!.setBooks(books)
                 adapterCustom!!.notifyDataSetChanged()
+                books_progressBar.visibility = View.GONE
             }
 
             override fun onError() {
@@ -82,7 +83,7 @@ class SearchFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_books_list, container, false)
+        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
     companion object {

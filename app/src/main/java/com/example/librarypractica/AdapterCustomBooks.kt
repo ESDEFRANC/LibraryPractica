@@ -40,7 +40,7 @@ class AdapterCustomBooks(mContext: Context?, movies:List<Book>, val listener: (I
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item:Item, listener: (Item) -> Unit) = with(itemView) {
-            Picasso.get().load(item.volumeInfo?.imageLinks?.thumbnail).into(bookCover)
+            Picasso.get().load(item.volumeInfo?.imageLinks?.thumbnail).placeholder(R.drawable.ic_launcher_foreground).into(bookCover)
             bookTitle!!.text = item.volumeInfo?.title
             setOnClickListener{
                 listener(item)
