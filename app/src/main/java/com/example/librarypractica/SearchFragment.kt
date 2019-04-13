@@ -1,5 +1,6 @@
 package com.example.librarypractica
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -23,9 +24,13 @@ private const val ARG_PARAM2 = "param2"
  */
 class SearchFragment : Fragment(){
 
+    interface OnSearchedBookClickedListener {
+        fun onSearchedBookClicked(book:Item)
+    }
+
     private var booksRepository: BooksSearchedRepository? = null
     private var adapterCustom: AdapterCustomBooks? = null
-    lateinit var listenerList: FavoriteBooksList.OnBookClickedListener
+    lateinit var listenerList: OnSearchedBookClickedListener
 
     var query:String? = null
 
@@ -47,7 +52,7 @@ class SearchFragment : Fragment(){
             searched_books_list.layoutManager = GridLayoutManager(this.context,2)
         }
         adapterCustom = AdapterCustomBooks(this.context!!, emptyList()){
-            listenerList.onBookClicked(it)}
+            listenerList.onSearchedBookClicked(it)}
         searched_books_list.adapter = adapterCustom
 
     }
@@ -86,6 +91,11 @@ class SearchFragment : Fragment(){
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        listenerList = context as OnSearchedBookClickedListener
+    }
+
     companion object {
         fun newInstance(query: String?): SearchFragment{
             val fragmentSearch = SearchFragment()
@@ -105,6 +115,8 @@ class SearchFragment : Fragment(){
     private fun isPortrait(): Boolean {
         return resources.getBoolean(R.bool.portrait)
     }
+
+
 
 
 }

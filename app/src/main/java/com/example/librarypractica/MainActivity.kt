@@ -7,12 +7,7 @@ import android.support.v7.widget.SearchView
 import android.view.MenuItem
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
-class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, /*FavoriteBooksList.OnBookClickedListener*/RegisterFragment.OnRegistrationConfirmPressed, LoginFragment.OnGoogleSignInPressedListener{
-
-
-    var booksSearched: ArrayList<Book>? = null
-
-    val BASE_URL = "https://www.googleapis.com/books/v1/volumes?q="
+class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, /*FavoriteBooksList.OnBookClickedListener*/ SearchFragment.OnSearchedBookClickedListener, RegisterFragment.OnRegistrationConfirmPressed, LoginFragment.OnGoogleSignInPressedListener{
 
     override fun onGooglePressed(client: GoogleSignInClient) {
         val signInIntent = client.signInIntent
@@ -43,18 +38,16 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
             addToBackStack(null).
             commit()
 
-
     }
 
-
-    /*override fun onBookClicked(book: Item) {
+    override fun onSearchedBookClicked(book: Item) {
         val fragmentBook = BookFragment.newInstance(book)
         supportFragmentManager.
             beginTransaction().
             replace(R.id.main_container, fragmentBook).
             addToBackStack(null).
             commit()
-    }*/
+    }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
@@ -69,9 +62,6 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
                     }
 
                     override fun onQueryTextSubmit(query: String?): Boolean {
-
-                        //val booksLoader = BooksLoader(this@MainActivity, BASE_URL + query)
-                        //booksSearched = booksLoader.loadInBackground() as ArrayList<Book>
                         val searchFragment = SearchFragment.newInstance(query)
                         supportFragmentManager.
                             beginTransaction().

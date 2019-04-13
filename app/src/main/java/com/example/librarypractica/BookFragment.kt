@@ -5,7 +5,10 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_book.*
+import kotlinx.android.synthetic.main.template_recycler.view.*
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,22 +42,22 @@ class BookFragment : Fragment() {
     }
 
     private fun showDetails() {
-       /* val item = arguments!!.getParcelable<Book>("book")
+       val item = arguments!!.getParcelable<Item>("book")
 
-        //cover.setImageResource(item.img)
-        Title.text = item.title
-        Author.text = item.authors.toString()
-        Editorial.text = item.publisher
-        synopsis.text = item.description*/
+        Picasso.get().load(item.volumeInfo?.imageLinks?.thumbnail).placeholder(R.drawable.ic_launcher_foreground).into(cover)
+        Title.text = item.volumeInfo?.title
+        Author.text = Arrays.toString(item.volumeInfo?.authors)
+        Editorial.text = item.volumeInfo?.publisher
+        synopsis.text = item.volumeInfo?.description
     }
 
     companion object {
 
-        fun newInstance(book: Book): BookFragment{
+        fun newInstance(book: Item): BookFragment{
             val fragmentDetails = BookFragment()
             val args = Bundle()
 
-            //args.putParcelable("book", book)
+            args.putParcelable("book", book)
             fragmentDetails.arguments = args
 
             return fragmentDetails
