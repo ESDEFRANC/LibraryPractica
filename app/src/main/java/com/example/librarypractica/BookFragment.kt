@@ -1,6 +1,7 @@
 package com.example.librarypractica
 
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,9 +10,12 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.BounceInterpolator
 import android.view.animation.ScaleAnimation
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_book.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,6 +34,10 @@ private const val ARG_PARAM2 = "param2"
  */
 class BookFragment : Fragment() {
 
+    var listUsers:ArrayList<User> = ArrayList()
+    var user:User? = null
+    var item:Item? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,21 +53,63 @@ class BookFragment : Fragment() {
     }
 
     private fun configureToogleButton() {
-        val user = arguments!!.getParcelable<User>("user")
-        val item = arguments!!.getParcelable<Item>("book")
+        user = arguments!!.getParcelable("user")
+        item = arguments!!.getParcelable("book")
+        swapItem()
         val scaleAnimation = ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f)
         scaleAnimation.duration = 500
         val bounceInterpolator = BounceInterpolator()
         scaleAnimation.interpolator = bounceInterpolator
+        if (item!!.isFav) {
+            button_favorite.isChecked = true
+        }
         button_favorite.setOnCheckedChangeListener { compoundButton, isChecked ->
             compoundButton?.startAnimation(scaleAnimation)
             if (isChecked){
-                user.favoriteBooks!!.add(item)
-                Log.d("booksAdded", user.favoriteBooks.size.toString())
+                user!!.favoriteBooks.add(item!!)
+                loadData()
+                saveLocalData()
+                Log.d("booksAdded", listUsers.toString())
+                item!!.isFav = true
             }else {
-                user.favoriteBooks!!.remove(item)
+                user!!.favoriteBooks.remove(item!!)
             }
         }
+    }
+
+    private fun swapItem() {
+        for (itemIT in user!!.favoriteBooks) {
+            if(itemIT.id == item!!.id) {
+                item = itemIT
+            }
+        }
+    }
+
+
+    private fun saveLocalData(){
+        var index = -1
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        for (userIT in listUsers) {
+            if(userIT.username == user!!.username) {
+                index = listUsers.indexOf(userIT)
+            }
+        }
+        listUsers[index] = user!!
+
+        val gson = Gson()
+        val json = gson.toJson(listUsers)
+
+        preferences.edit().putString("users",json).apply()
+
+    }
+
+    private fun loadData() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val gson = Gson()
+        val json = preferences.getString("users", null)
+        val usersType = object : TypeToken<List<User>>() {}.type
+        listUsers = gson.fromJson(json, usersType)
+        Log.d("UsernameVerification", preferences.all.toString())
     }
 
     private fun showDetails() {

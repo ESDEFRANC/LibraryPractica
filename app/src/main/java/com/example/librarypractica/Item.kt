@@ -12,6 +12,7 @@ class Item() :Parcelable{
     @SerializedName("volumeInfo")
     @Expose
     var volumeInfo:Book ? = null
+    var isFav:Boolean = false
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readString()
