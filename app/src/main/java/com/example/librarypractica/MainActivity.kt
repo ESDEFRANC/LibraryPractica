@@ -8,6 +8,7 @@ import android.view.MenuItem
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, /*FavoriteBooksList.OnBookClickedListener*/ SearchFragment.OnSearchedBookClickedListener, RegisterFragment.OnRegistrationConfirmPressed, LoginFragment.OnGoogleSignInPressedListener{
+    var fragmentBooksList:FavoriteBooksList?=null
 
     override fun onGooglePressed(client: GoogleSignInClient) {
         val signInIntent = client.signInIntent
@@ -15,18 +16,18 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
     }
 
     override fun onRegistrationConfirmPressed(user:User) {
-        val fragmentBooks = FavoriteBooksList.newInstance(user)
+        fragmentBooksList = FavoriteBooksList.newInstance(user)
         supportFragmentManager.
             beginTransaction().
-            replace(R.id.main_container, fragmentBooks).
+            replace(R.id.main_container, fragmentBooksList!!).
             commit()
     }
 
     override fun onLoginPressed(user:User) {
-        val fragmentListBooks = FavoriteBooksList.newInstance(user)
+        fragmentBooksList = FavoriteBooksList.newInstance(user)
         supportFragmentManager.
             beginTransaction().
-            replace(R.id.main_container, fragmentListBooks).
+            replace(R.id.main_container, fragmentBooksList!!).
             commit()
     }
 
@@ -40,8 +41,8 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
 
     }
 
-    override fun onSearchedBookClicked(book: Item) {
-        val fragmentBook = BookFragment.newInstance(book)
+    override fun onSearchedBookClicked(book: Item, user: User) {
+        val fragmentBook = BookFragment.newInstance(book, user)
         supportFragmentManager.
             beginTransaction().
             replace(R.id.main_container, fragmentBook).
@@ -62,7 +63,8 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
                     }
 
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        val searchFragment = SearchFragment.newInstance(query)
+                        val user = fragmentBooksList!!.arguments!!.getParcelable<User>("user")
+                        val searchFragment = SearchFragment.newInstance(query, user)
                         supportFragmentManager.
                             beginTransaction().
                             replace(R.id.main_container, searchFragment).

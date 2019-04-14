@@ -10,15 +10,15 @@ class User(): Parcelable {
     @SerializedName("password")
     var password:String = ""
     @SerializedName("favoriteBooks")
-    var favoriteBooks:ArrayList<Book>? = null
+    var favoriteBooks:ArrayList<Item> = ArrayList()
 
     constructor(parcel: Parcel) : this() {
         username = parcel.readString()
         password = parcel.readString()
-        favoriteBooks = parcel.readArrayList(Book::class.java.classLoader) as ArrayList<Book>?
+        favoriteBooks = parcel.readArrayList(Item::class.java.classLoader) as ArrayList<Item>
     }
 
-    constructor(mail: String, password: String, listBooks:ArrayList<Book>?): this() {
+    constructor(mail: String, password: String, listBooks:ArrayList<Item>): this() {
         this.username = mail
         this.password = password
         this.favoriteBooks = listBooks

@@ -146,7 +146,7 @@ class LoginFragment : Fragment() {
 
     private fun saveGoogleAccountData() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        user = User(account!!.email!!, account!!.id!!, null)
+        user = User(account!!.email!!, account!!.id!!, ArrayList())
         listUsers.add(user!!)
         val gson = Gson()
         val json = gson.toJson(listUsers)

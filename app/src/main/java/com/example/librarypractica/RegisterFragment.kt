@@ -96,7 +96,7 @@ class RegisterFragment : Fragment() {
 
     private fun saveLocalData(username:String,password:String){
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        user = User(username,password, null)
+        user = User(username,password, ArrayList())
         listUsers.add(user!!)
         val gson = Gson()
         val json = gson.toJson(listUsers)

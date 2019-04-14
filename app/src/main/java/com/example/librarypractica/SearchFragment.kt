@@ -7,6 +7,9 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.BounceInterpolator
+import android.view.animation.ScaleAnimation
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_favorite_books_list.*
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -25,7 +28,7 @@ private const val ARG_PARAM2 = "param2"
 class SearchFragment : Fragment(){
 
     interface OnSearchedBookClickedListener {
-        fun onSearchedBookClicked(book:Item)
+        fun onSearchedBookClicked(book:Item, user: User)
     }
 
     private var booksRepository: BooksSearchedRepository? = null
@@ -38,10 +41,10 @@ class SearchFragment : Fragment(){
         super.onActivityCreated(savedInstanceState)
         configureList()
         getSearchedBooks()
-
     }
 
     private fun configureList() {
+        val user = arguments!!.getParcelable<User>("user")
         searched_books_list.setHasFixedSize(true)
         if(isLargeScreen() && !isPortrait()){
             searched_books_list.layoutManager = GridLayoutManager(this.context,4)
@@ -52,7 +55,7 @@ class SearchFragment : Fragment(){
             searched_books_list.layoutManager = GridLayoutManager(this.context,2)
         }
         adapterCustom = AdapterCustomBooks(this.context!!, emptyList()){
-            listenerList.onSearchedBookClicked(it)}
+            listenerList.onSearchedBookClicked(it, user)}
         searched_books_list.adapter = adapterCustom
 
     }
@@ -97,11 +100,12 @@ class SearchFragment : Fragment(){
     }
 
     companion object {
-        fun newInstance(query: String?): SearchFragment{
+        fun newInstance(query: String?, user: User): SearchFragment{
             val fragmentSearch = SearchFragment()
             val args = Bundle()
 
             args.putString("query", query)
+            args.putParcelable("user", user)
             fragmentSearch.arguments = args
 
             return fragmentSearch

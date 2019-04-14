@@ -2,12 +2,15 @@ package com.example.librarypractica
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.BounceInterpolator
+import android.view.animation.ScaleAnimation
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_book.*
-import kotlinx.android.synthetic.main.template_recycler.view.*
 import java.util.*
 
 
@@ -37,8 +40,26 @@ class BookFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
         showDetails()
+        configureToogleButton()
+    }
+
+    private fun configureToogleButton() {
+        val user = arguments!!.getParcelable<User>("user")
+        val item = arguments!!.getParcelable<Item>("book")
+        val scaleAnimation = ScaleAnimation(0.7f, 1.0f, 0.7f, 1.0f, Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f)
+        scaleAnimation.duration = 500
+        val bounceInterpolator = BounceInterpolator()
+        scaleAnimation.interpolator = bounceInterpolator
+        button_favorite.setOnCheckedChangeListener { compoundButton, isChecked ->
+            compoundButton?.startAnimation(scaleAnimation)
+            if (isChecked){
+                user.favoriteBooks!!.add(item)
+                Log.d("booksAdded", user.favoriteBooks.size.toString())
+            }else {
+                user.favoriteBooks!!.remove(item)
+            }
+        }
     }
 
     private fun showDetails() {
@@ -53,11 +74,12 @@ class BookFragment : Fragment() {
 
     companion object {
 
-        fun newInstance(book: Item): BookFragment{
+        fun newInstance(book: Item, user:User): BookFragment{
             val fragmentDetails = BookFragment()
             val args = Bundle()
 
             args.putParcelable("book", book)
+            args.putParcelable("user", user)
             fragmentDetails.arguments = args
 
             return fragmentDetails
