@@ -2,7 +2,6 @@ package com.example.librarypractica
 
 
 import android.content.Context
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
@@ -14,6 +13,8 @@ import android.view.ViewGroup
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_register.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.regex.Pattern
 
 
@@ -58,12 +59,19 @@ class RegisterFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        checkData()
-        if (thereIsData) {
-            loadData()
+        doAsync {
+            val result = loadData()
+            uiThread {
+                listUsers = result as ArrayList<User>
+            }
         }
+        checkData()
             registerMain.setOnClickListener {
                 fieldsOk = true
+                if(userNameIsAlreadyUsed()){
+                    nameMain.error = "Username not available."
+                    fieldsOk = false
+                }
                 checkFields()
                 if (fieldsOk) {
 
@@ -89,6 +97,15 @@ class RegisterFragment : Fragment() {
         super.onSaveInstanceState(outState)
     }
 
+    private fun userNameIsAlreadyUsed() : Boolean {
+        for (usersIT in listUsers) {
+            if(usersIT.username == nameMain.text.toString()) {
+                return true
+            }
+        }
+        return false
+    }
+
     private fun checkData() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         if (preferences.contains("users")) thereIsData = true
@@ -105,13 +122,12 @@ class RegisterFragment : Fragment() {
 
     }
 
-    private fun loadData() {
+    private fun loadData(): List<User>{
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val gson = Gson()
         val json = preferences.getString("users", null)
         val usersType = object : TypeToken<List<User>>() {}.type
-        listUsers = gson.fromJson(json, usersType)
-        Log.d("UsernameVerification", preferences.all.toString())
+        return gson.fromJson(json, usersType)
     }
 
     private fun checkFields() {

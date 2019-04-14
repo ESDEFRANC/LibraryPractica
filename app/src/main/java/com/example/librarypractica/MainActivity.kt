@@ -1,19 +1,22 @@
 package com.example.librarypractica
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.SearchView
 import android.view.MenuItem
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
-class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, /*FavoriteBooksList.OnBookClickedListener*/ SearchFragment.OnSearchedBookClickedListener, RegisterFragment.OnRegistrationConfirmPressed, LoginFragment.OnGoogleSignInPressedListener{
+class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedListener, LoginFragment.OnButtonLoginPressedListener, FavoriteBooksList.OnBookClickedListener, SearchFragment.OnSearchedBookClickedListener, RegisterFragment.OnRegistrationConfirmPressed{
+    override fun onBookClicked(book: Item, user: User) {
+        val fragmentBook = BookFragment.newInstance(book, user)
+        supportFragmentManager.
+            beginTransaction().
+            replace(R.id.main_container, fragmentBook).
+            addToBackStack(null).
+            commit()
+    }
+
     var fragmentBooksList:FavoriteBooksList?=null
 
-    override fun onGooglePressed(client: GoogleSignInClient) {
-        val signInIntent = client.signInIntent
-        startActivityForResult(signInIntent, 1234)
-    }
 
     override fun onRegistrationConfirmPressed(user:User) {
         fragmentBooksList = FavoriteBooksList.newInstance(user)
@@ -94,16 +97,5 @@ class  MainActivity : AppCompatActivity(), LoginFragment.OnTextRegistredPressedL
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1234) {
-            val fragmentbooks = FavoriteBooksList()
-            supportFragmentManager.
-                beginTransaction().
-                replace(R.id.main_container, fragmentbooks).
-                commit()
-        }
-
-    }
 
 }

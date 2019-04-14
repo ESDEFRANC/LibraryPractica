@@ -17,6 +17,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_login.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,17 +36,9 @@ class LoginFragment : Fragment() {
     var user: User? = null
     var isRegistered = false
     var thereIsData = false
-    private var theGoogleAccountIsInDB = false
-    private var account:GoogleSignInAccount? = null
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var loginRegister: OnButtonLoginPressedListener
     private lateinit var registerListener: OnTextRegistredPressedListener
-    private lateinit var googleListener: OnGoogleSignInPressedListener
-    private lateinit var gso:GoogleSignInOptions
 
-    interface OnGoogleSignInPressedListener {
-        fun onGooglePressed(client: GoogleSignInClient)
-    }
 
     interface OnButtonLoginPressedListener {
         fun onLoginPressed(user: User)
@@ -65,14 +59,15 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
-            requestEmail().
-            build()
-        mGoogleSignInClient= GoogleSignIn.getClient(context!!, gso)
+        doAsync {
+            val result = loadData()
+            uiThread {
+                listUsers = result as ArrayList<User>
+            }
+        }
         Login.setOnClickListener {
             checkData()
             if (thereIsData) {
-                loadData()
                 checkUser()
                 if (isRegistered) {
                     loginRegister.onLoginPressed(user!!)
@@ -85,16 +80,6 @@ class LoginFragment : Fragment() {
 
         }
 
-        sign_in_google_button.setOnClickListener {
-            googleListener.onGooglePressed(mGoogleSignInClient)
-            checkData()
-            if(!theGoogleAccountIsInDB && thereIsData) {
-                saveGoogleAccountData()
-            }
-            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-            Log.d("GoogleUser", preferences.all.toString())
-        }
-
         backToRegister.setOnClickListener {
             registerListener.onRegistredPressed(Email.text.toString())
         }
@@ -102,25 +87,12 @@ class LoginFragment : Fragment() {
     }
 
 
-
-    override fun onStart() {
-        super.onStart()
-        if (GoogleSignIn.getLastSignedInAccount(activity)!= null) {
-            account = GoogleSignIn.getLastSignedInAccount(activity)
-            checkData()
-            if (thereIsData) {
-                loadData()
-                checkIfGoogleAccountIsinDB()
-            }
-        }
-    }
-
-    private fun loadData() {
+    private fun loadData() :List<User>{
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val gson = Gson()
         val json = preferences.getString("users", null)
         val usersType = object : TypeToken<List<User>>() {}.type
-        listUsers = gson.fromJson(json, usersType)
+        return gson.fromJson(json, usersType)
     }
 
     private fun checkUser(){
@@ -136,30 +108,11 @@ class LoginFragment : Fragment() {
         super.onAttach(context)
         loginRegister = activity as OnButtonLoginPressedListener
         registerListener = activity as OnTextRegistredPressedListener
-        googleListener = activity as OnGoogleSignInPressedListener
     }
 
     private fun checkData() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         if (preferences.contains("users")) thereIsData = true
-    }
-
-    private fun saveGoogleAccountData() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        user = User(account!!.email!!, account!!.id!!, ArrayList())
-        listUsers.add(user!!)
-        val gson = Gson()
-        val json = gson.toJson(listUsers)
-
-        preferences.edit().putString("users",json).apply()
-    }
-
-    private fun checkIfGoogleAccountIsinDB() {
-        for (user in listUsers) {
-            if(user.username == account!!.email && user.password == account!!.id) {
-                theGoogleAccountIsInDB = true
-            }
-        }
     }
 
 }

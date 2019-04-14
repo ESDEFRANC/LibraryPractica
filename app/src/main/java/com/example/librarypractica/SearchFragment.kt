@@ -7,13 +7,9 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.BounceInterpolator
-import android.view.animation.ScaleAnimation
 import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_favorite_books_list.*
 import kotlinx.android.synthetic.main.fragment_search.*
-import java.util.ArrayList
+
 
 
 // TODO: Rename parameter arguments, choose names that match

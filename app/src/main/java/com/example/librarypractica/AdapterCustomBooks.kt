@@ -8,14 +8,15 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.template_recycler.view.*
 
-class AdapterCustomBooks(mContext: Context?, movies:List<Book>, val listener: (Item) -> Unit) : RecyclerView.Adapter<AdapterCustomBooks.ViewHolder>() {
+class AdapterCustomBooks(mContext: Context?, books:List<Item>, val listener: (Item) -> Unit) : RecyclerView.Adapter<AdapterCustomBooks.ViewHolder>() {
 
 
     private var mContext: Context? = null
-    private var books: List<Item> = ArrayList()
+    private var books:List<Item> = ArrayList()
 
     init {
         this.mContext = mContext
+        this.books = books
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

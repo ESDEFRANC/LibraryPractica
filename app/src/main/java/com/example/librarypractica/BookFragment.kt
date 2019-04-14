@@ -66,11 +66,10 @@ class BookFragment : Fragment() {
         button_favorite.setOnCheckedChangeListener { compoundButton, isChecked ->
             compoundButton?.startAnimation(scaleAnimation)
             if (isChecked){
+                item!!.isFav = true
                 user!!.favoriteBooks.add(item!!)
                 loadData()
                 saveLocalData()
-                Log.d("booksAdded", listUsers.toString())
-                item!!.isFav = true
             }else {
                 user!!.favoriteBooks.remove(item!!)
             }
