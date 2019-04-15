@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="FragmentRegisterPaswordMain2LW">317dp</dimen>
+    <dimen name="FragmentRegisterPaswordMain2LH">47dp</dimen>
+    <dimen name="Simple16DP">16dp</dimen>
+    <dimen name="Simple8DP">8dp</dimen>
+    <dimen name="FragmentRegisternameMainLW">314dp</dimen>
+    <dimen name="FragmentRegisternameMainLH">40dp</dimen>
+    <dimen name="FragmentRegisternameMainMT">196dp</dimen>
+    <dimen name="FragmentRegisterpasswordMainLW">317dp</dimen>
+    <dimen name="FragmentRegisterpasswordMainLH">47dp</dimen>
+    <dimen name="FragmentRegisterbuttonLW">324dp</dimen>
+    <dimen name="FragmentTemplateRecyclerbookCoverLH">170dp</dimen>
+    <dimen name="FragmentTemplateRecyclerbookTitleLW">150dp</dimen>
+    <dimen name="FragmentTemplateRecyclerbookTitleLH">90dp</dimen>
+    <dimen name="FragmentTemplateRecyclerbookTitleLM">10dp</dimen>
+    <dimen name="FragmentTemplateRecyclerbookTitleTextSize">20sp</dimen>
+    <dimen name="FragmentTemplateRecyclerLM">10dp</dimen>
+    <dimen name="FragmentTemplateRecyclercARDeLEVATION">10dp</dimen>
+    <dimen name="FragmentTemplateRecyclerImageViewLH">100dp</dimen>
+    <dimen name="FragmentTemplateRecyclerImageViewLW">500dp</dimen>
+    <dimen name="FragmentSearchMT">200dp</dimen>
+    <dimen name="FragmentLoginEmailLH">36dp</dimen>
+    <dimen name="FragmentLoginEmailMT">132dp</dimen>
+    <dimen name="FragmentLoginButtonLW">90dp</dimen>
+    <dimen name="FragmentLoginbackToRegisterLH">27dp</dimen>
+    <dimen name="TextSize30">30sp</dimen>
+    <dimen name="FragmentBookImageLW">145dp</dimen>
+    <dimen name="FragmentBookImageLH">156dp</dimen>
+    <dimen name="FragmentBookTitleMT">20dp</dimen>
+    <dimen name="FragmentBookScrollLW">265dp</dimen>
+    <dimen name="FragmentBookScrollLH">176dp</dimen>
+    <dimen name="FragmentBookToggleButtonLW">51dp</dimen>
+    <dimen name="FragmentBookToggleButtonLH">50dp</dimen>
+</resources>

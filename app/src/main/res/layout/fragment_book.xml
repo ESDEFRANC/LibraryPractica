@@ -9,27 +9,27 @@
 
     <ImageView
             android:src="@mipmap/ic_launcher"
-            android:layout_width="145dp"
-            android:layout_height="156dp"
+            android:layout_width="@dimen/FragmentBookImageLW"
+            android:layout_height="@dimen/FragmentBookImageLH"
             android:id="@+id/cover"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/Simple16DP"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/Simple8DP"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="@dimen/Simple8DP"/>
 
     <TextView
             android:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Title"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/FragmentBookTitleMT"
             app:layout_constraintTop_toBottomOf="@+id/cover"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/Simple8DP"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="@dimen/Simple8DP"/>
 
     <TextView
             android:text="TextView"
@@ -37,11 +37,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/Author"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="@dimen/Simple8DP"
+            android:layout_marginTop="@dimen/FragmentBookTitleMT"
             app:layout_constraintTop_toBottomOf="@+id/Title"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="@dimen/Simple8DP"/>
 
     <TextView
             android:text="TextView"
@@ -49,23 +49,23 @@
             android:layout_height="wrap_content"
             android:id="@+id/Editorial"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/Simple8DP"
+            android:layout_marginTop="@dimen/FragmentBookTitleMT"
             app:layout_constraintTop_toBottomOf="@+id/Author"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="@dimen/Simple8DP"/>
 
     <ScrollView
             android:id="@+id/ScrollView01"
-            android:layout_width="265dp"
-            android:layout_height="176dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="@dimen/FragmentBookScrollLW"
+            android:layout_height="@dimen/FragmentBookScrollLH"
+            android:layout_marginTop="@dimen/Simple8DP"
             app:layout_constraintTop_toBottomOf="@+id/Editorial"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/Simple8DP"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/Simple8DP"
+            android:layout_marginBottom="@dimen/Simple8DP"
             app:layout_constraintBottom_toTopOf="@+id/button_favorite"
             app:layout_constraintVertical_bias="0.337"
     >
@@ -80,20 +80,20 @@
 
     <ToggleButton
             android:id="@+id/button_favorite"
-            android:layout_width="51dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/FragmentBookToggleButtonLW"
+            android:layout_height="@dimen/FragmentBookToggleButtonLH"
             android:background="@drawable/button_favorite"
             android:checked="false"
             android:text=""
             android:textOff=""
             android:textOn=""
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/Simple8DP"
             app:layout_constraintTop_toBottomOf="@+id/Editorial"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/Simple8DP"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/Simple8DP"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/Simple8DP"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.889"
             app:layout_constraintVertical_bias="0.892"/>

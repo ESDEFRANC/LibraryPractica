@@ -4,9 +4,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="10dp">
+        android:layout_margin="@dimen/FragmentTemplateRecyclerLM"
+        app:cardCornerRadius="@dimen/Simple8DP"
+        app:cardElevation="@dimen/FragmentTemplateRecyclercARDeLEVATION">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -16,16 +16,16 @@
         <ImageView
                 android:id="@+id/bookCover"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="@dimen/FragmentTemplateRecyclerbookCoverLH"
                 android:scaleType="centerCrop"/>
 
         <TextView
                 android:id="@+id/bookTitle"
-                android:layout_width="150dp"
-                android:layout_height="90dp"
-                android:layout_margin="10dp"
+                android:layout_width="@dimen/FragmentTemplateRecyclerbookTitleLW"
+                android:layout_height="@dimen/FragmentTemplateRecyclerbookTitleLH"
+                android:layout_margin="@dimen/FragmentTemplateRecyclerbookTitleLM"
                 android:layout_gravity="center_horizontal"
-                android:textSize="20sp"/>
+                android:textSize="@dimen/FragmentTemplateRecyclerbookTitleTextSize"/>
 
 
     </LinearLayout>
