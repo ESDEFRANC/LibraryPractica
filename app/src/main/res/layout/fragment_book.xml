@@ -20,7 +20,7 @@
             android:layout_marginStart="@dimen/Simple8DP"/>
 
     <TextView
-            android:text="TextView"
+            android:text="@string/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Title"
@@ -32,7 +32,7 @@
             android:layout_marginEnd="@dimen/Simple8DP"/>
 
     <TextView
-            android:text="TextView"
+            android:text="@string/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Author"
@@ -44,7 +44,7 @@
             android:layout_marginEnd="@dimen/Simple8DP"/>
 
     <TextView
-            android:text="TextView"
+            android:text="@string/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Editorial"
@@ -71,7 +71,7 @@
     >
 
         <TextView
-                android:text="TextView"
+                android:text="@string/textview"
                 android:id="@+id/synopsis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

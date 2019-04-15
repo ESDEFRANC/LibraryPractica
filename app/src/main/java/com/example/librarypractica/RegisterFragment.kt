@@ -69,7 +69,7 @@ class RegisterFragment : Fragment() {
             registerMain.setOnClickListener {
                 fieldsOk = true
                 if(userNameIsAlreadyUsed()){
-                    nameMain.error = "Username not available."
+                    nameMain.error = getString(R.string.ErrorName)
                     fieldsOk = false
                 }
                 checkFields()
@@ -139,7 +139,7 @@ class RegisterFragment : Fragment() {
 
     private fun checkRepeatPassword() {
         if (passwordMain2.text.toString().trim() != passwordMain.text.toString().trim()) {
-            passwordMain.error = "Passwords desn't match"
+            passwordMain.error = getString(R.string.PasswordnotMatch)
             fieldsOk = false
         }
     }
@@ -147,7 +147,7 @@ class RegisterFragment : Fragment() {
     private fun checkPassword(){
         val password = passwordMain.text.toString().trim()
         if (password.isEmpty() || password.length < 8) {
-            passwordMain.error = "The password cannot be empty or have a length of less then 8 characters"
+            passwordMain.error = getString(R.string.PasswordnotCorrect)
             fieldsOk = false
         }
     }
@@ -155,7 +155,7 @@ class RegisterFragment : Fragment() {
     private fun checkUserName() {
         val username = nameMain.text.toString().trim()
         if (!Pattern.compile("^[a-zA-Z0-9]+$").matcher(username).matches()) {
-            nameMain.error = "Username not valid"
+            nameMain.error = getString(R.string.UserNamenotValid)
             fieldsOk = false
         }
     }

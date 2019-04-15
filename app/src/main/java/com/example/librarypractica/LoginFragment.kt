@@ -67,10 +67,10 @@ class LoginFragment : Fragment() {
                 if (isRegistered) {
                     loginRegister.onLoginPressed(user!!)
                 } else {
-                    Email.error = "Wrong Email or Password"
+                    Email.error = getString(R.string.Wrongemail)
                 }
             }else {
-                Toast.makeText(context, "You have to be registered first", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.Registerfirst), Toast.LENGTH_LONG).show()
             }
 
         }

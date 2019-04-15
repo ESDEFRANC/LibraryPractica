@@ -1,5 +1,6 @@
 package com.example.librarypractica
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -40,6 +41,7 @@ class FavoriteBooksList : Fragment() {
         showDetails()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showDetails() {
         val item = arguments!!.getParcelable<User>("user")
         textView.text = "Welcome ${item.username}"

@@ -65,9 +65,7 @@ class SearchFragment : Fragment(){
                 books_progressBar.visibility = View.GONE
             }
 
-            override fun onError() {
-                Toast.makeText(context!!, "No Internet Connection", Toast.LENGTH_LONG).show()
-            }
+            override fun onError() = Toast.makeText(context!!, getString(R.string.NoInternet), Toast.LENGTH_LONG).show()
 
         })
 
