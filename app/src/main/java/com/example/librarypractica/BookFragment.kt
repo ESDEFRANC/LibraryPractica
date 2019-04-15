@@ -71,7 +71,10 @@ class BookFragment : Fragment() {
                 loadData()
                 saveLocalData()
             }else {
+                item!!.isFav = false
                 user!!.favoriteBooks.remove(item!!)
+                loadData()
+                saveLocalData()
             }
         }
     }
