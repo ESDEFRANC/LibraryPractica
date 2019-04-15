@@ -75,7 +75,7 @@ class RegisterFragment : Fragment() {
                 checkFields()
                 if (fieldsOk) {
 
-                    saveLocalData(nameMain.text.toString(), passwordMain.text.toString())
+                    saveLocalData(nameMain.text.toString().trim(), passwordMain.text.toString().trim())
                     buttonRegisteredListener.onRegistrationConfirmPressed(user!!)
                 }
             }
@@ -99,7 +99,7 @@ class RegisterFragment : Fragment() {
 
     private fun userNameIsAlreadyUsed() : Boolean {
         for (usersIT in listUsers) {
-            if(usersIT.username == nameMain.text.toString()) {
+            if(usersIT.username == nameMain.text.toString().trim()) {
                 return true
             }
         }
@@ -138,14 +138,14 @@ class RegisterFragment : Fragment() {
 
 
     private fun checkRepeatPassword() {
-        if (passwordMain2.text.toString() != passwordMain.text.toString()) {
+        if (passwordMain2.text.toString().trim() != passwordMain.text.toString().trim()) {
             passwordMain.error = "Passwords desn't match"
             fieldsOk = false
         }
     }
 
     private fun checkPassword(){
-        val password = passwordMain.text.toString()
+        val password = passwordMain.text.toString().trim()
         if (password.isEmpty() || password.length < 8) {
             passwordMain.error = "The password cannot be empty or have a length of less then 8 characters"
             fieldsOk = false
@@ -153,7 +153,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun checkUserName() {
-        val username = nameMain.text.toString()
+        val username = nameMain.text.toString().trim()
         if (!Pattern.compile("^[a-zA-Z0-9]+$").matcher(username).matches()) {
             nameMain.error = "Username not valid"
             fieldsOk = false

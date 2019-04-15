@@ -5,15 +5,10 @@ import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -81,7 +76,7 @@ class LoginFragment : Fragment() {
         }
 
         backToRegister.setOnClickListener {
-            registerListener.onRegistredPressed(Email.text.toString())
+            registerListener.onRegistredPressed(Email.text.toString().trim())
         }
 
     }
@@ -97,7 +92,7 @@ class LoginFragment : Fragment() {
 
     private fun checkUser(){
         for (userIt in listUsers){
-            if(userIt.username == Email.text.toString() && userIt.password == Password.text.toString()){
+            if(userIt.username == Email.text.toString().trim() && userIt.password == Password.text.toString().trim()){
                     isRegistered = true
                 this.user = userIt
             }
