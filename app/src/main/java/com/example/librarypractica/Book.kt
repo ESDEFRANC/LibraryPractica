@@ -9,8 +9,6 @@ import com.google.gson.annotations.SerializedName
  */
 
 class Book {
-
-
     @SerializedName("title")
             /**
              * Retrieves book's api title

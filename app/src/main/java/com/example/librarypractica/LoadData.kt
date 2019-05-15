@@ -6,6 +6,7 @@ import android.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
+
 class LoadData : AsyncTask<Context, Void, ArrayList<User>>() {
 
     override fun doInBackground(vararg context: Context): ArrayList<User> {
