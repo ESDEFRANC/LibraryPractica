@@ -114,7 +114,4 @@ class SearchFragment : Fragment(){
         return resources.getBoolean(R.bool.portrait)
     }
 
-
-
-
 }
